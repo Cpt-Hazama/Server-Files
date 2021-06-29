@@ -1,0 +1,8 @@
+"Cpt. Hazama"
+{
+	"base"		"base"
+	"title"		"Cpt. Hazama's Maps"
+	"category"	"other"
+	"maps"		"^cpt_"
+	"menusystem"	"1"
+}
