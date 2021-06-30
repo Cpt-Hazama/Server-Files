@@ -1,6 +1,6 @@
 CreateConVar("sv_movementspeed",1,{FCVAR_SERVER_CAN_EXECUTE,FCVAR_ARCHIVE,FCVAR_NOTIFY},"Enables realistic movement speed")
 CreateConVar("sv_movementspeed_walk",100,{FCVAR_SERVER_CAN_EXECUTE,FCVAR_ARCHIVE,FCVAR_NOTIFY},"Movement Variable")
-CreateConVar("sv_movementspeed_run",165,{FCVAR_SERVER_CAN_EXECUTE,FCVAR_ARCHIVE,FCVAR_NOTIFY},"Movement Variable")
+CreateConVar("sv_movementspeed_run",190,{FCVAR_SERVER_CAN_EXECUTE,FCVAR_ARCHIVE,FCVAR_NOTIFY},"Movement Variable")
 CreateConVar("sv_movementspeed_climb",30,{FCVAR_SERVER_CAN_EXECUTE,FCVAR_ARCHIVE,FCVAR_NOTIFY},"Movement Variable")
 CreateConVar("sv_movementspeed_jump",150,{FCVAR_SERVER_CAN_EXECUTE,FCVAR_ARCHIVE,FCVAR_NOTIFY},"Movement Variable")
 CreateConVar("sv_movementspeed_staminamax",500,{FCVAR_SERVER_CAN_EXECUTE,FCVAR_ARCHIVE,FCVAR_NOTIFY},"Movement Variable")
@@ -100,6 +100,21 @@ if SERVER then
 		if ply.SV_StaminaVoice then
 			ply.SV_StaminaVoice:Stop()
 		end
+	end)
+
+	hook.Add("PlayerInitialSpawn","SVStuff_PlayerInitialSpawn",function(ply)
+		timer.Simple(0.1,function()
+			ply:SetArmor(150)
+
+			ply.SV_Stamina = GetConVarNumber("sv_movementspeed_staminamax")
+			ply.SV_NextStaminaDrainT = CurTime()
+			ply.SV_NextStaminaRegenT = CurTime()
+			ply.SV_NextStaminaRegenDelayT = CurTime()
+
+			ply.SV_StaminaVoice = CreateSound(ply,"player/breathe1.wav")
+			ply.SV_StaminaVoice:SetSoundLevel(70)
+			ply.SV_StaminaVoice:ChangeVolume(0)
+		end)
 	end)
 
 	hook.Add("PlayerSpawn","SVStuff_PlayerSpawn",function(ply)
